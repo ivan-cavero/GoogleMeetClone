@@ -21,7 +21,6 @@ export default {
     }
 
     const username = authStore.user.displayName
-    console.log(username)
 
     return {
       signOut,

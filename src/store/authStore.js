@@ -3,7 +3,8 @@ import { auth } from '../firebase'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null
+    user: null,
+    isLoading: true
   }),
   actions: {
     setUser (newUser) {
@@ -13,6 +14,7 @@ export const useAuthStore = defineStore('auth', {
       return new Promise((resolve) => {
         auth.onAuthStateChanged((user) => {
           this.setUser(user)
+          this.isLoading = false
           resolve(user)
         })
       })

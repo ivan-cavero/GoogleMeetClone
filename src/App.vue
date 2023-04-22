@@ -1,19 +1,37 @@
 <template>
   <div id="app">
-    <header>
-    </header>
-
+    <MainHeader v-show="!authStore.isLoading" />
     <main>
-      <router-view></router-view>
+      <div v-if="authStore.isLoading" v-loading="authStore.isLoading" class="loading" />
+      <router-view v-else />
     </main>
-
-    <footer>
-    </footer>
   </div>
 </template>
 
 <script>
+import MainHeader from '@/MainHeader.vue'
+import { useAuthStore } from './store/authStore'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    MainHeader
+  },
+  setup () {
+    const authStore = useAuthStore()
+
+    return {
+      authStore
+    }
+  }
 }
 </script>
+
+<style scoped>
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+</style>
