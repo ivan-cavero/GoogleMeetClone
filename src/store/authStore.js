@@ -16,6 +16,10 @@ export const useAuthStore = defineStore('auth', {
           resolve(user)
         })
       })
+    },
+    async signOut () {
+      await auth.signOut()
+      this.setUser(null)
     }
   }
 })
