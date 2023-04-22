@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "Product Sans";
+    src: url('../fonts/ProductSansRegular.ttf') format('woff2');
+}
+
+body {
+    font-family: "Product Sans", Arial, Helvetica, sans-serif;
+}
+
+.dark-mode {
+    background-color: #222;
+    color: #fff;
+}
+  
+.dark-mode .app-header {
+    background-color: #333;
+}
