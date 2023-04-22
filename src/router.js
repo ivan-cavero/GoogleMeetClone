@@ -6,13 +6,13 @@ import { useAuthStore } from './store/authStore'
 
 const routes = [
   {
-    path: '/authenticated',
+    path: '/',
     name: 'authenticated',
     component: AuthenticatedHomePage,
     meta: { requiresAuth: true }
   },
   {
-    path: '/',
+    path: '/login',
     name: 'unauthenticated',
     component: UnauthenticatedHomePage
   }
@@ -27,7 +27,6 @@ router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const authStore = useAuthStore()
   const isAuthenticated = await authStore.checkAuthState()
-  console.log(isAuthenticated)
 
   if (requiresAuth && !isAuthenticated) {
     next({ name: 'unauthenticated' })
