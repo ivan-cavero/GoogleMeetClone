@@ -8,6 +8,9 @@
       <template v-else>
         <AppHeaderRightNotAuthenticated />
       </template>
+      <el-button class="icon-button" @click="toggleDarkMode" circle>
+        <font-awesome-icon :icon="isDarkMode ? 'sun' : 'moon'" />
+      </el-button>
     </div>
   </header>
 </template>
@@ -18,7 +21,7 @@ import AppHeaderRightNotAuthenticated from './AppHeaderRightNotAuthenticated.vue
 import AppHeaderRightAuthenticated from './AppHeaderRightAuthenticated.vue'
 
 import { useAuthStore } from '../../store/authStore'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export default {
   name: 'AppHeader',
@@ -32,8 +35,23 @@ export default {
     const authStore = useAuthStore()
     const isAuthenticated = computed(() => authStore.user !== null)
 
+    // Dark mode state
+    const isDarkMode = ref(false)
+
+    // Toggle dark mode
+    function toggleDarkMode () {
+      isDarkMode.value = !isDarkMode.value
+      if (isDarkMode.value) {
+        document.documentElement.classList.add('dark-mode')
+      } else {
+        document.documentElement.classList.remove('dark-mode')
+      }
+    }
+
     return {
-      isAuthenticated
+      isAuthenticated,
+      isDarkMode,
+      toggleDarkMode
     }
   }
 }
@@ -55,5 +73,8 @@ export default {
 .app-header-right {
   display: flex;
   align-items: center;
+}
+.icon-button {
+  width: 2rem;
 }
 </style>

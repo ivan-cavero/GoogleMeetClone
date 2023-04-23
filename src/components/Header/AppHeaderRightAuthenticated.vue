@@ -1,53 +1,24 @@
 <template>
   <div class="user-info">
     <span style="margin-right: 0.5rem;">{{ currentTime }}</span>
-    <el-button class="icon-button" @click="toggleDarkMode" circle style="margin-right: 0.5rem;">
+    <el-button class="icon-button" circle style="margin-right: 0.5rem;">
       <font-awesome-icon :icon="'fa-question'" />
     </el-button>
-    <el-popover
-      placement="bottom"
-      trigger="click"
-      :width="200"
-      popper-class="custom-popper"
-    >
-      <achievement-progress-bar
-        :userAchievements="userAchievements"
-        :maxAchievements="maxAchievements"
-      />
-      <div>
-        <el-button type="primary" @click="goToProfile">Profile</el-button>
-        <el-button type="danger" @click="logOut">Log Out</el-button>
-      </div>
-      <template v-slot:reference>
-        <img :src="user.photoURL" alt="User" class="profile" />
-      </template>
-    </el-popover>
+    <user-popover />
   </div>
-  <el-button class="icon-button" @click="toggleDarkMode" circle>
-    <font-awesome-icon :icon="isDarkMode ? 'sun' : 'moon'" />
-  </el-button>
 </template>
 
 <script>
-import { useAuthStore } from '../../store/authStore'
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
-import AchievementProgressBar from './AchievementProgressBar.vue'
+import UserPopover from './UserPopover.vue'
 
 export default {
   name: 'AppHeaderRightAuthenticated',
   components: {
-    AchievementProgressBar
+    UserPopover
   },
   setup () {
-    const router = useRouter()
-    const authStore = useAuthStore()
-    const user = computed(() => authStore.user)
-
-    // Dark mode state
-    const isDarkMode = ref(false)
-
     // Get current time
     const currentTime = ref('')
 
@@ -63,40 +34,11 @@ export default {
     // Update current time every 20 seconds
     setInterval(updateCurrentTime, 20000)
 
-    // Toggle dark mode
-    function toggleDarkMode () {
-      isDarkMode.value = !isDarkMode.value
-      if (isDarkMode.value) {
-        document.documentElement.classList.add('dark-mode')
-      } else {
-        document.documentElement.classList.remove('dark-mode')
-      }
-    }
-
     // Update current time when the component is mounted
     updateCurrentTime()
 
-    const goToProfile = () => {
-
-    }
-
-    const logOut = async () => {
-      await authStore.signOut()
-      router.push({ name: 'unauthenticated' })
-    }
-
-    const userAchievements = 4
-    const maxAchievements = 10
-
     return {
-      user,
-      currentTime,
-      isDarkMode,
-      toggleDarkMode,
-      goToProfile,
-      logOut,
-      userAchievements,
-      maxAchievements
+      currentTime
     }
   }
 }
@@ -127,11 +69,6 @@ export default {
   .user-info span {
     display: none;
   }
-}
-.custom-popper .el-button {
-  display: block;
-  width: 100%;
-  margin: 0.25rem 0;
 }
 
 </style>
