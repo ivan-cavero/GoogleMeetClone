@@ -13,8 +13,8 @@
       ></div>
     </div>
     <div style="display: flex; flex-direction: row;">
-      <el-button disabled style="margin-top: 0.5rem; width: 100%;" class="custom-button" @click="goToProfile">Achievements</el-button>
-      <el-button disabled style="margin-top: 0.5rem; width: 100%;" type="primary" class="custom-button" @click="goToProfile">Rewards</el-button>
+      <el-button disabled style="margin-top: 0.5rem; width: 100%;" class="custom-button">Achievements</el-button>
+      <el-button disabled style="margin-top: 0.5rem; width: 100%;" type="primary" class="custom-button">Rewards</el-button>
     </div>
   </div>
 </template>
