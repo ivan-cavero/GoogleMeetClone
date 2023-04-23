@@ -1,24 +1,47 @@
 <template>
-    <div class="user-info">
-      <span style="margin-right: 0.5rem;">{{ currentTime }}</span>
-      <el-button class="icon-button" @click="toggleDarkMode" circle style="margin-right: 0.5rem;">
-        <font-awesome-icon :icon="'fa-question'" />
-      </el-button>
-      <img :src="user.photoURL" alt="User" class="profile" />
-    </div>
-    <el-button class="icon-button" @click="toggleDarkMode" circle>
-      <font-awesome-icon :icon="isDarkMode ? 'sun' : 'moon'" />
+  <div class="user-info">
+    <span style="margin-right: 0.5rem;">{{ currentTime }}</span>
+    <el-button class="icon-button" @click="toggleDarkMode" circle style="margin-right: 0.5rem;">
+      <font-awesome-icon :icon="'fa-question'" />
     </el-button>
+    <el-popover
+      placement="bottom"
+      trigger="click"
+      :width="200"
+      popper-class="custom-popper"
+    >
+      <achievement-progress-bar
+        :userAchievements="userAchievements"
+        :maxAchievements="maxAchievements"
+      />
+      <div>
+        <el-button type="primary" @click="goToProfile">Profile</el-button>
+        <el-button type="danger" @click="logOut">Log Out</el-button>
+      </div>
+      <template v-slot:reference>
+        <img :src="user.photoURL" alt="User" class="profile" />
+      </template>
+    </el-popover>
+  </div>
+  <el-button class="icon-button" @click="toggleDarkMode" circle>
+    <font-awesome-icon :icon="isDarkMode ? 'sun' : 'moon'" />
+  </el-button>
 </template>
 
 <script>
 import { useAuthStore } from '../../store/authStore'
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+import AchievementProgressBar from './AchievementProgressBar.vue'
 
 export default {
   name: 'AppHeaderRightAuthenticated',
+  components: {
+    AchievementProgressBar
+  },
   setup () {
-    // Auth store
+    const router = useRouter()
     const authStore = useAuthStore()
     const user = computed(() => authStore.user)
 
@@ -53,11 +76,27 @@ export default {
     // Update current time when the component is mounted
     updateCurrentTime()
 
+    const goToProfile = () => {
+
+    }
+
+    const logOut = async () => {
+      await authStore.signOut()
+      router.push({ name: 'unauthenticated' })
+    }
+
+    const userAchievements = 4
+    const maxAchievements = 10
+
     return {
       user,
       currentTime,
       isDarkMode,
-      toggleDarkMode
+      toggleDarkMode,
+      goToProfile,
+      logOut,
+      userAchievements,
+      maxAchievements
     }
   }
 }
@@ -89,4 +128,10 @@ export default {
     display: none;
   }
 }
+.custom-popper .el-button {
+  display: block;
+  width: 100%;
+  margin: 0.25rem 0;
+}
+
 </style>
