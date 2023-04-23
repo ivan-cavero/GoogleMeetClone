@@ -9,7 +9,7 @@
           <span class="user-email">{{ user.email }}</span>
         </div>
       </div>
-      <el-button class="custom-button" @click="goToProfile">Manage account</el-button>
+      <el-button class="custom-button" @click="dialogVisible = true">Manage account</el-button>
       <div class="separator"></div>
       <achievement-progress-bar :userAchievements="userAchievements" :maxAchievements="maxAchievements" />
     </div>
@@ -24,27 +24,27 @@
       <img :src="user.photoURL" alt="User" class="profile" />
     </template>
   </el-popover>
+  <user-settings-dialog v-model="dialogVisible" :user="user" />
 </template>
 
 <script>
 import { useAuthStore } from '../../store/authStore'
 import { useRouter } from 'vue-router'
 import AchievementProgressBar from './AchievementProgressBar.vue'
-import { computed } from 'vue'
+import UserSettingsDialog from './UserSettingsDialog.vue'
+import { computed, ref } from 'vue'
 
 export default {
   name: 'UserPopover',
   components: {
-    AchievementProgressBar
+    AchievementProgressBar,
+    UserSettingsDialog
   },
   setup () {
     const router = useRouter()
     const authStore = useAuthStore()
     const user = computed(() => authStore.user)
-
-    const goToProfile = () => {
-
-    }
+    const dialogVisible = ref(false)
 
     const logOut = async () => {
       await authStore.signOut()
@@ -58,8 +58,8 @@ export default {
       user,
       userAchievements,
       maxAchievements,
-      goToProfile,
-      logOut
+      logOut,
+      dialogVisible
     }
   }
 }
