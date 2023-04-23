@@ -62,7 +62,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding: 0.6rem 1rem;
   background-color: #fff;
   box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
 }
@@ -75,6 +75,7 @@ export default {
   align-items: center;
 }
 .icon-button {
-  width: 2rem;
+  width: 2.3rem;
+  height: 2.3rem;
 }
 </style>

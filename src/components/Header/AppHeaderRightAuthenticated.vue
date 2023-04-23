@@ -1,6 +1,6 @@
 <template>
   <div class="user-info">
-    <span style="margin-right: 0.5rem;">{{ currentTime }}</span>
+    <span>{{ currentTime }}</span>
     <el-button class="icon-button" circle style="margin-right: 0.5rem;">
       <font-awesome-icon :icon="'fa-question'" />
     </el-button>
@@ -61,8 +61,20 @@ export default {
   background-clip: padding-box, border-box;
   cursor: pointer;
 }
+.user-info span {
+  margin-right: 1rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: rgb(95,99,104);
+  cursor: default;
+  user-select: none;
+}
+.user-info span:hover {
+  text-decoration: underline;
+}
 .icon-button {
-  width: 2rem;
+  width: 2.3rem;
+  height: 2.3rem;
 }
 @media screen and (max-width: 640px) {
 

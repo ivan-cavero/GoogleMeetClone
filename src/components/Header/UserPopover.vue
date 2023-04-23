@@ -97,7 +97,8 @@ export default {
 }
 
 .profile {
-  height: 2rem;
+  width: 2.3rem;
+  height: 2.3rem;
   border-radius: 50%;
   margin-right: 0.5rem;
   border: double 2px transparent;

@@ -17,14 +17,16 @@ export default {
   align-items: center;
 }
 .app-header-left img {
-  height: 2rem;
+  height: 2.3rem;
   margin-right: 0.2rem;
+  top: -1.5px;
 }
 .app-header-left span {
-  font-size: 19px;
+  font-size: 20px;
   vertical-align: middle;
   color: #5f6368;
   font-weight: 300;
+  cursor: default;
 }
 .app-header-left span:hover {
   text-decoration: underline;
