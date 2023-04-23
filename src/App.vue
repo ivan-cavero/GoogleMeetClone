@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MainHeader v-show="!authStore.isLoading" />
+    <AppHeader v-show="!authStore.isLoading" />
     <main>
       <div v-if="authStore.isLoading" v-loading="authStore.isLoading" class="loading" />
       <router-view v-else />
@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import MainHeader from '@/MainHeader.vue'
+import AppHeader from '@/Header/AppHeader.vue'
 import { useAuthStore } from './store/authStore'
 
 export default {
   name: 'App',
   components: {
-    MainHeader
+    AppHeader
   },
   setup () {
     const authStore = useAuthStore()
