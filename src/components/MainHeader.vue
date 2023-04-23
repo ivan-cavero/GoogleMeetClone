@@ -10,8 +10,20 @@
           <font-awesome-icon :icon="'fa-user'" style="padding-right: 0.5rem;" />
           Login
         </el-button>
-        <el-button>Join a meeting</el-button>
-        <el-button>Start a meeting</el-button>
+        <el-button class="desktop">Join a meeting</el-button>
+        <el-button class="desktop">Start a meeting</el-button>
+        <el-dropdown class="mobile">
+          <el-button type="primary" style="margin-left: 0.5rem;">
+            Meeting
+            <font-awesome-icon :icon="'fa-caret-down'" style="padding-left: 0.5rem;" />
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Join a meeting</el-dropdown-item>
+              <el-dropdown-item>Start a meeting</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </template>
       <template v-if="isAuthenticated">
         <div class="user-info">
@@ -55,8 +67,8 @@ export default {
       currentTime.value = `${hours}:${minutes} · ${day}, ${date}`
     }
 
-    // Update current time every minute
-    setInterval(updateCurrentTime, 60000)
+    // Update current time every 20 seconds
+    setInterval(updateCurrentTime, 20000)
 
     // Toggle dark mode
     function toggleDarkMode () {
@@ -138,5 +150,27 @@ export default {
 }
 .icon-button {
   width: 2rem;
+}
+.desktop {
+  display: inline-block;
+}
+
+.mobile {
+  display: none;
+}
+@media screen and (max-width: 640px) {
+  .app-header-left span {
+    display: none;
+  }
+
+  .user-info span {
+    display: none;
+  }
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: inline-block;
+  }
 }
 </style>
