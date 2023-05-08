@@ -10,10 +10,10 @@ import './assets/styles/global.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGoogle, faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faMoon, faSun, faUser, faQuestion, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faMoon, faSun, faUser, faQuestion, faCaretDown, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faGoogle, faGithub, faMoon, faSun, faUser, faQuestion, faCaretDown)
+library.add(faGoogle, faGithub, faMoon, faSun, faUser, faQuestion, faCaretDown, faChevronLeft, faChevronRight)
 
 const app = createApp(App)
 
