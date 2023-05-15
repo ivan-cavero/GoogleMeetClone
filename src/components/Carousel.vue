@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="carousel">
-      <button @click="previous">
+      <button class="left-arrow" @click="previous">
         <font-awesome-icon :icon="'fa-chevron-left'" />
       </button>
       <div class="carousel-item-container">
@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <button @click="next">
+      <button class="right-arrow" @click="next">
         <font-awesome-icon :icon="'fa-chevron-right'" />
       </button>
     </div>
@@ -137,6 +137,24 @@ export default {
   height: 6px;
   border-radius: 50%;
   margin: 0 3px;
+}
+.carousel button {
+  margin: 1rem;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+.left-arrow,
+.right-arrow {
+  transition: transform 0.3s ease;
+}
+
+.left-arrow:hover {
+  transform: translateX(-5px);
+}
+
+.right-arrow:hover {
+  transform: translateX(5px);
 }
 
 </style>
