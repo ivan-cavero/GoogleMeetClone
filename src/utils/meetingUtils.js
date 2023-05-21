@@ -11,3 +11,13 @@ export async function getMeetingByInviteCode (inviteCode) {
     return null
   }
 }
+
+export const canAccessMeeting = (currentMeeting, currentUser) => {
+  if (currentMeeting.visibility === 'public') {
+    return true
+  } else if (currentMeeting.visibility === 'private') {
+    return currentMeeting.participants.some(participant => participant.email === currentUser.email)
+  } else {
+    return false
+  }
+}
