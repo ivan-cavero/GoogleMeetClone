@@ -1,5 +1,5 @@
 <template>
-  <div class="new-meeting">
+  <div>
     <h1>New Meeting</h1>
   </div>
 </template>

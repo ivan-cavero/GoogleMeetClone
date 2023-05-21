@@ -28,13 +28,13 @@ export default {
     const meetingCode = ref('')
     const isValidCode = ref(false)
 
-    watch(meetingCode, () => {
-      isValidCode.value = isValidInviteCode(meetingCode.value)
+    watch(meetingCode, async () => {
+      isValidCode.value = await isValidInviteCode(meetingCode.value)
     })
 
     const joinMeeting = () => {
       const inviteCode = meetingCode.value.split('/').pop().toUpperCase()
-      router.push({ name: 'new-meeting', params: { inviteCode } })
+      router.push({ name: 'meeting', params: { inviteCode } })
     }
 
     return {
@@ -45,3 +45,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.join-meeting {
+  display: flex;
+  flex-direction:row;
+}
+</style>

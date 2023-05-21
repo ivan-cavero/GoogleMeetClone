@@ -4,7 +4,6 @@
     type="primary"
     @click="createNewMeeting"
     :loading="isLoading"
-    class="new-meeting"
   >
     <template #icon>
       <font-awesome-icon :icon="['fas', 'video']" />
@@ -31,7 +30,7 @@ export default {
 
       if (meetingData) {
         isLoading.value = false
-        router.push({ name: 'new-meeting', params: { inviteCode } })
+        router.push({ name: 'meeting', params: { inviteCode } })
       } else {
         isLoading.value = false
       }
