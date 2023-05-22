@@ -47,7 +47,6 @@ export async function createMeeting (inviteCode) {
     createdAt,
     inviteCode,
     creator,
-    participants: [creator],
     visibility: 'public',
     expiresAt: new Date(createdAt.getTime() + 8 * 60 * 60 * 1000) // 8 hours after creation
   }

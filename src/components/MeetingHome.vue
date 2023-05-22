@@ -1,45 +1,57 @@
 <template>
   <div>
     <h1>New Meeting</h1>
+    <ul>
+      <li v-for="(participant, index) in participants" :key="index">
+        {{ participant.name }} {{ participant.email }} - {{ participant.online ? 'Online' : 'Offline' }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useMeetingStore } from '#/store/meetingStore'
 import { useAuthStore } from '#/store/authStore'
+import { subscribeToParticipants, updateOnlineStatus } from '#/utils/meetingService'
 
 export default {
-  name: 'MeetingHome',
   setup () {
     const meetingStore = useMeetingStore()
     const authStore = useAuthStore()
-    const currentMeeting = meetingStore.currentMeeting
-    const currentUser = authStore.user
+    const currentMeeting = ref(meetingStore.currentMeeting)
+    const currentUser = ref(authStore.user)
 
-    const canAccessMeeting = () => {
-      console.log(currentMeeting)
-      if (currentMeeting.visibility === 'public') {
-        return true
-      } else if (currentMeeting.visibility === 'private') {
-        return currentMeeting.participants.some(participant => participant.email === currentUser.email)
-      } else {
-        return false
-      }
-    }
-
-    const router = useRouter()
-    const canAccess = ref(false)
+    const participants = ref([])
 
     onMounted(() => {
-      canAccess.value = canAccessMeeting()
-
-      if (!canAccess.value) {
-        router.push({ path: '/' })
+      const callback = (snapshot) => {
+        const updatedParticipants = []
+        snapshot.forEach(childSnapshot => {
+          updatedParticipants.push(childSnapshot.val())
+        })
+        participants.value = updatedParticipants
       }
+      const unsubscribe = subscribeToParticipants(currentMeeting.value.inviteCode, callback)
+
+      updateOnlineStatus(currentMeeting.value.inviteCode, currentUser.value.uid, true)
+
+      window.addEventListener('beforeunload', handleBeforeUnload)
+
+      onUnmounted(() => {
+        unsubscribe()
+        updateOnlineStatus(currentMeeting.value.inviteCode, currentUser.value.uid, false)
+        window.removeEventListener('beforeunload', handleBeforeUnload)
+      })
     })
+
+    const handleBeforeUnload = () => {
+      updateOnlineStatus(currentMeeting.value.inviteCode, currentUser.value.uid, false)
+    }
+
+    return {
+      participants
+    }
   }
 }
 </script>

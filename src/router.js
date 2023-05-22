@@ -5,7 +5,7 @@ import MeetingHome from '@/MeetingHome.vue'
 
 import { useMeetingStore } from './store/meetingStore'
 import { getMeetingByInviteCode, canAccessMeeting } from './utils/meetingUtils'
-import { ref as dbRef, set, child, getDatabase } from 'firebase/database'
+import { ref as dbRef, update, child, getDatabase } from 'firebase/database'
 import { useAuthStore } from './store/authStore'
 
 const routes = [
@@ -33,21 +33,23 @@ const routes = [
         const authStore = useAuthStore()
         const currentUser = authStore.user
 
-        // Check if the current user can access the meeting
         if (canAccessMeeting(meetingData, currentUser)) {
-          // Add the current user as a participant if they're not already a participant and the meeting is public
-          if (meetingData.visibility === 'public' && !meetingData.participants.some(participant => participant.uuid === currentUser.uid)) {
+          if (meetingData.visibility === 'public' && !(meetingData.participants && Object.keys(meetingData.participants).some(key => key === currentUser.uid))) {
             const newParticipant = {
               uuid: currentUser.uid,
               name: currentUser.displayName,
               email: currentUser.email
             }
-            meetingData.participants.push(newParticipant)
 
-            // Update the database
+            if (!meetingData.participants) {
+              meetingData.participants = {}
+            }
+
+            meetingData.participants[currentUser.uid] = newParticipant
+
             const db = getDatabase()
             const meetingRef = child(dbRef(db), `meetings/${inviteCode}`)
-            await set(meetingRef, meetingData)
+            await update(meetingRef, { participants: meetingData.participants })
           }
 
           const meetingStore = useMeetingStore()
